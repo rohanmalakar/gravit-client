@@ -7,27 +7,27 @@ const AnimatedTicketButton: React.FC = () => {
       <motion.button
         whileHover="hover"
         whileTap={{ scale: 0.98 }}
-        className="relative overflow-hidden bg-white rounded-full pl-6 pr-2 py-2 shadow-2xl group"
+        className="relative overflow-hidden bg-white rounded-full pl-4 pr-1.5 py-1.5 shadow-lg group w-fit"
       >
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           {/* Text Container */}
-          <div className="relative h-6 overflow-hidden flex items-center">
+          <div className="relative h-5 overflow-hidden flex items-center">
             <motion.span
               variants={{
-                hover: { y: -30 }
+                hover: { y: -24 }
               }}
               transition={{ duration: 0.3, ease: 'easeInOut' }}
-              className="block text-black text-lg font-bold whitespace-nowrap"
+              className="block text-black text-sm font-semibold whitespace-nowrap"
             >
               Buy Ticket
             </motion.span>
             <motion.span
               variants={{
-                hover: { y: -30 }
+                hover: { y: -24 }
               }}
               initial={{ y: 0 }}
               transition={{ duration: 0.3, ease: 'easeInOut' }}
-              className="absolute top-6 left-0 text-black text-lg font-bold whitespace-nowrap"
+              className="absolute top-5 left-0 text-black text-sm font-semibold whitespace-nowrap"
             >
               Buy Ticket
             </motion.span>
@@ -40,7 +40,7 @@ const AnimatedTicketButton: React.FC = () => {
                 hover: { scale: 1.1 }
               }}
               transition={{ duration: 0.3 }}
-              className="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center relative overflow-hidden"
+              className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center relative overflow-hidden"
             >
               {/* First Arrow */}
               <motion.div
@@ -50,7 +50,7 @@ const AnimatedTicketButton: React.FC = () => {
                 transition={{ duration: 0.3, ease: 'easeInOut' }}
                 className="absolute"
               >
-                <ChevronRight className="w-6 h-6 text-white" strokeWidth={3} />
+                <ChevronRight className="w-4 h-4 text-white" strokeWidth={3} />
               </motion.div>
 
               {/* Second Arrow */}
@@ -62,7 +62,7 @@ const AnimatedTicketButton: React.FC = () => {
                 transition={{ duration: 0.3, ease: 'easeInOut' }}
                 className="absolute"
               >
-                <ChevronRight className="w-6 h-6 text-white" strokeWidth={3} />
+                <ChevronRight className="w-4 h-4 text-white" strokeWidth={3} />
               </motion.div>
             </motion.div>
           </div>

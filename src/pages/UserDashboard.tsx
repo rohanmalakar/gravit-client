@@ -60,7 +60,7 @@ export default function UserDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 py-12">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 py-12 pt-24">
       <Container>
         <div className="max-w-6xl mx-auto">
           {/* User Profile Section */}

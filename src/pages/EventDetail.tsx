@@ -39,7 +39,7 @@ export default function EventDetail() {
 
   if (loading) {
     return (
-      <div className="p-6 text-center">
+      <div className="p-6 pt-24 text-center">
         <div className="text-gray-600">Loading event…</div>
       </div>
     );
@@ -47,14 +47,14 @@ export default function EventDetail() {
 
   if (!event) {
     return (
-      <div className="p-6 text-center">
+      <div className="p-6 pt-24 text-center">
         <div className="text-red-600">Event not found</div>
       </div>
     );
   }
 
   return (
-    <main className="container mx-auto p-6">
+    <main className="container mx-auto p-6 pt-24">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div>
           <img 

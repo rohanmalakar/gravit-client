@@ -41,7 +41,7 @@ export default function EventsList() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
+      <div className="min-h-screen bg-black flex items-center justify-center pt-20">
         <div className="text-center">
           <div className="inline-block animate-spin rounded-full h-16 w-16 border-b-2 border-purple-500 mb-4"></div>
           <p className="text-gray-400 text-lg">Loading events...</p>
@@ -51,7 +51,7 @@ export default function EventsList() {
   }
 
   return (
-    <main className="min-h-screen bg-black py-20 px-4">
+    <main className="min-h-screen bg-black py-20 pt-24 px-4">
       <div className="container mx-auto max-w-7xl">
         <h1 className="text-4xl md:text-5xl font-bold mb-8 text-white text-center">Upcoming Events</h1>
         {events.length === 0 ? (

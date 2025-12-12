@@ -10,7 +10,7 @@ export default function BookingSuccess() {
 
   if (!booking) {
     return (
-      <div className="p-6 text-center">
+      <div className="p-6 pt-24 text-center">
         <div>
           No booking info.{' '}
           <button 
@@ -25,7 +25,7 @@ export default function BookingSuccess() {
   }
 
   return (
-    <main className="container mx-auto p-6">
+    <main className="container mx-auto p-6 pt-24">
       <motion.div 
         initial={{ opacity: 0, y: 20 }} 
         animate={{ opacity: 1, y: 0 }} 
