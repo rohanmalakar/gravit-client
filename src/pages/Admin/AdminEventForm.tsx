@@ -52,10 +52,22 @@ export default function AdminEventForm() {
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
     try {
+      // Transform form data to match backend expectations
+      const payload = {
+        title: form.title,
+        description: form.description,
+        location: form.location,
+        date: form.date,
+        totalSeats: form.total_seats,  // Convert to camelCase
+        price: form.price,
+        image: form.img,  // Convert img to image
+        status: 'upcoming'
+      };
+
       if (id) {
-        await adminApi().put(`/events/${id}`, { ...form });
+        await adminApi().put(`/events/${id}`, payload);
       } else {
-        await adminApi().post('/events', { ...form });
+        await adminApi().post('/events', payload);
       }
       navigate('/admin/events');
     } catch (err: any) {
