@@ -8,6 +8,7 @@ export default function Signup() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [role, setRole] = useState<'user' | 'admin'>('user');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   
@@ -31,7 +32,7 @@ export default function Signup() {
     setLoading(true);
 
     try {
-      await register(name, email, password);
+      await register(name, email, password, role);
       navigate('/events', { replace: true });
     } catch (err: any) {
       setError(err.message || 'Registration failed. Please try again.');
@@ -128,6 +129,22 @@ export default function Signup() {
                   className="appearance-none relative block w-full px-4 py-3 bg-gray-900/50 border border-gray-600 placeholder-gray-500 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
                   placeholder="••••••••"
                 />
+              </div>
+
+              <div>
+                <label htmlFor="role" className="block text-sm font-medium text-gray-300 mb-2">
+                  Account Type
+                </label>
+                <select
+                  id="role"
+                  name="role"
+                  value={role}
+                  onChange={(e) => setRole(e.target.value as 'user' | 'admin')}
+                  className="appearance-none relative block w-full px-4 py-3 bg-gray-900/50 border border-gray-600 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                >
+                  <option value="user">User - Regular account for booking events</option>
+                  <option value="admin">Admin - Manage events and bookings</option>
+                </select>
               </div>
 
               <div className="flex items-center">
