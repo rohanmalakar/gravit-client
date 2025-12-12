@@ -44,7 +44,8 @@ export default function AdminEventForm() {
     (async () => {
       try {
         const res = await adminApi().get(`/events/${id}`);
-        const event = res.data.event ?? res.data;
+        const event = res.data.data ?? res.data.event ?? res.data;
+        console.log('Admin loading event:', event);
         setForm({
           title: event.title || '',
           description: event.description || '',

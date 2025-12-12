@@ -16,7 +16,9 @@ export default function EventDetail() {
     setLoading(true);
     try {
       const res = await api.get(`/events/${id}`);
-      setEvent(res.data.event ?? res.data);
+      const eventData = res.data.data ?? res.data.event ?? res.data;
+      console.log('Event data received:', eventData);
+      setEvent(eventData);
     } catch (e) {
       console.error('Load event error', e);
       setEvent(null);
