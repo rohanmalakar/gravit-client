@@ -7,7 +7,7 @@ export interface Event {
   date: string;
   totalSeats: number;
   availableSeats: number;
-  price: number;
+  price: string | number;
   image?: string;
   status?: string;
   createdAt?: string;
