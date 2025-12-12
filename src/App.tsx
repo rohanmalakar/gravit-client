@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './contexts/AuthContext';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import Footer from './components/Footer';
@@ -12,6 +13,10 @@ import EventDetail from './pages/EventDetail';
 import BookingSuccess from './pages/BookingSuccess';
 import AdminEvents from './pages/Admin/AdminEvents';
 import AdminEventForm from './pages/Admin/AdminEventForm';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import UserDashboard from './pages/UserDashboard';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function HomePage() {
   return (
@@ -31,23 +36,65 @@ function HomePage() {
 function App() {
   return (
     <BrowserRouter>
-      <div className="min-h-screen flex flex-col">
-        <Header />
-        <div className="grow">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/events" element={<EventsList />} />
-            <Route path="/events/:id" element={<EventDetail />} />
-            <Route path="/booking-success" element={<BookingSuccess />} />
-            
-            {/* Admin Routes */}
-            <Route path="/admin/events" element={<AdminEvents />} />
-            <Route path="/admin/events/new" element={<AdminEventForm />} />
-            <Route path="/admin/events/:id/edit" element={<AdminEventForm />} />
-          </Routes>
+      <AuthProvider>
+        <div className="min-h-screen flex flex-col">
+          <Header />
+          <div className="grow">
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/events" element={<EventsList />} />
+              <Route path="/events/:id" element={<EventDetail />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              
+              {/* Protected Routes */}
+              <Route 
+                path="/dashboard" 
+                element={
+                  <ProtectedRoute>
+                    <UserDashboard />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/booking-success" 
+                element={
+                  <ProtectedRoute>
+                    <BookingSuccess />
+                  </ProtectedRoute>
+                } 
+              />
+              
+              {/* Admin Routes */}
+              <Route 
+                path="/admin/events" 
+                element={
+                  <ProtectedRoute requireAdmin>
+                    <AdminEvents />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/events/new" 
+                element={
+                  <ProtectedRoute requireAdmin>
+                    <AdminEventForm />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/events/:id/edit" 
+                element={
+                  <ProtectedRoute requireAdmin>
+                    <AdminEventForm />
+                  </ProtectedRoute>
+                } 
+              />
+            </Routes>
+          </div>
+          <Footer />
         </div>
-        <Footer />
-      </div>
+      </AuthProvider>
     </BrowserRouter>
   );
 }

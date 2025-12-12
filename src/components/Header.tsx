@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import AnimatedTicketButton from './BuyticketBtn';
+import { useAuth } from '../contexts/AuthContext';
 
 // --- 1. Custom Hook: useScrollDirection ---
 // This hook determines the vertical scroll direction.
@@ -35,6 +36,8 @@ const useScrollDirection = (): ScrollDirection => {
 // --- 2. The Smart Navbar Component ---
 const SmartNavbar: React.FC = () => {
   const scrollDirection = useScrollDirection();
+  const { isAuthenticated, user, logout } = useAuth();
+  const [showUserMenu, setShowUserMenu] = useState(false);
   
   // Determine if the navbar should be visible
   // It should be visible if we scroll 'up', or if we are at the very top (scrollDir === 'initial')
@@ -75,20 +78,79 @@ const SmartNavbar: React.FC = () => {
           >
             Events
           </Link>
-          <Link 
-            to="/admin/events" 
-            className="text-white/90 hover:text-white transition font-medium text-sm"
-          >
-            Admin
-          </Link>
+          {user?.role === 'admin' && (
+            <Link 
+              to="/admin/events" 
+              className="text-white/90 hover:text-white transition font-medium text-sm"
+            >
+              Admin
+            </Link>
+          )}
         </div>
 
-        {/* Right Side: Contact and Button */}
+        {/* Right Side: User Menu or Login */}
         <div className="flex items-center space-x-4">
-          <div className="hidden lg:flex flex-col text-right text-sm text-white/90">
-            <span>(888) 123-4557</span>
-            <span>info@example.com</span>
-          </div>
+          {isAuthenticated ? (
+            <div className="relative">
+              <button
+                onClick={() => setShowUserMenu(!showUserMenu)}
+                className="flex items-center space-x-2 text-white hover:text-white/90 transition"
+              >
+                <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center font-bold">
+                  {user?.name.charAt(0).toUpperCase()}
+                </div>
+                <span className="hidden lg:block font-medium">{user?.name}</span>
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              {showUserMenu && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl py-2 z-50">
+                  <Link
+                    to="/dashboard"
+                    className="block px-4 py-2 text-gray-800 hover:bg-purple-100 transition"
+                    onClick={() => setShowUserMenu(false)}
+                  >
+                    My Dashboard
+                  </Link>
+                  {user?.role === 'admin' && (
+                    <Link
+                      to="/admin/events"
+                      className="block px-4 py-2 text-gray-800 hover:bg-purple-100 transition"
+                      onClick={() => setShowUserMenu(false)}
+                    >
+                      Manage Events
+                    </Link>
+                  )}
+                  <button
+                    onClick={() => {
+                      logout();
+                      setShowUserMenu(false);
+                    }}
+                    className="block w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 transition"
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="flex items-center space-x-3">
+              <Link
+                to="/login"
+                className="text-white hover:text-white/90 transition font-medium"
+              >
+                Login
+              </Link>
+              <Link
+                to="/signup"
+                className="px-4 py-2 bg-white text-purple-600 rounded-lg hover:bg-white/90 transition font-medium"
+              >
+                Sign Up
+              </Link>
+            </div>
+          )}
           
           {/* Buy Ticket Button */}
           <AnimatedTicketButton />
