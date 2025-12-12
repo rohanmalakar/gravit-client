@@ -16,12 +16,12 @@ export interface Event {
 
 export interface Booking {
   id: number;
-  event_id: number;
+  eventId: number;
   name: string;
   email: string;
   mobile?: string;
   quantity: number;
-  total_amount: number;
+  totalAmount: number;
   createdAt?: string;
 }
 
