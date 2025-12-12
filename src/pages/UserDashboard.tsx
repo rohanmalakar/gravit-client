@@ -63,15 +63,15 @@ export default function UserDashboard() {
       <Container>
         <div className="max-w-6xl mx-auto">
           {/* User Profile Section */}
-          <div className="bg-gray-800/50 backdrop-blur-lg rounded-2xl shadow-2xl border border-gray-700 p-8 mb-8">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-6">
-                <div className="w-20 h-20 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center text-white text-3xl font-bold">
+          <div className="bg-gray-800/50 backdrop-blur-lg rounded-2xl shadow-2xl border border-gray-700 p-4 md:p-6 lg:p-8 mb-8">
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+              <div className="flex items-center space-x-4 md:space-x-6 w-full md:w-auto">
+                <div className="w-16 h-16 md:w-20 md:h-20 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center text-white text-2xl md:text-3xl font-bold flex-shrink-0">
                   {user?.name.charAt(0).toUpperCase()}
                 </div>
-                <div>
-                  <h1 className="text-3xl font-bold text-white">{user?.name}</h1>
-                  <p className="text-gray-400 mt-1">{user?.email}</p>
+                <div className="min-w-0 flex-1">
+                  <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-white truncate">{user?.name}</h1>
+                  <p className="text-gray-400 mt-1 text-sm md:text-base truncate max-w-[200px] md:max-w-none" title={user?.email}>{user?.email}</p>
                   <span className={`inline-block mt-2 px-3 py-1 rounded-full text-xs font-semibold ${
                     user?.role === 'admin' 
                       ? 'bg-purple-900/50 text-purple-300 border border-purple-700' 
@@ -83,7 +83,7 @@ export default function UserDashboard() {
               </div>
               <button
                 onClick={logout}
-                className="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-all font-medium"
+                className="w-full md:w-auto px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-all font-medium"
               >
                 Logout
               </button>
@@ -92,18 +92,18 @@ export default function UserDashboard() {
 
           {/* Admin Actions */}
           {user?.role === 'admin' && (
-            <div className="bg-purple-900/30 backdrop-blur-lg rounded-2xl shadow-2xl border border-purple-700 p-6 mb-8">
-              <h2 className="text-xl font-bold text-white mb-4">Admin Actions</h2>
-              <div className="flex gap-4">
+            <div className="bg-purple-900/30 backdrop-blur-lg rounded-2xl shadow-2xl border border-purple-700 p-4 md:p-6 mb-8">
+              <h2 className="text-lg md:text-xl font-bold text-white mb-4">Admin Actions</h2>
+              <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
                 <Link
                   to="/admin/events"
-                  className="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-lg transition-all font-medium shadow-lg"
+                  className="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-lg transition-all font-medium shadow-lg text-center"
                 >
                   Manage Events
                 </Link>
                 <Link
                   to="/admin/events/new"
-                  className="px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-all font-medium shadow-lg"
+                  className="px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-all font-medium shadow-lg text-center"
                 >
                   Create New Event
                 </Link>
@@ -112,12 +112,12 @@ export default function UserDashboard() {
           )}
 
           {/* Bookings Section */}
-          <div className="bg-gray-800/50 backdrop-blur-lg rounded-2xl shadow-2xl border border-gray-700 p-8">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-white">My Bookings</h2>
+          <div className="bg-gray-800/50 backdrop-blur-lg rounded-2xl shadow-2xl border border-gray-700 p-4 md:p-6 lg:p-8">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+              <h2 className="text-xl md:text-2xl font-bold text-white">My Bookings</h2>
               <Link
                 to="/events"
-                className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-all text-sm font-medium"
+                className="w-full sm:w-auto text-center px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-all text-sm font-medium"
               >
                 Browse Events
               </Link>
@@ -151,55 +151,57 @@ export default function UserDashboard() {
                 {bookings.map((booking) => (
                   <div
                     key={booking.id}
-                    className="bg-gray-900/50 rounded-lg border border-gray-700 p-6 hover:border-purple-500 transition-all"
+                    className="bg-gray-900/50 rounded-lg border border-gray-700 p-4 md:p-6 hover:border-purple-500 transition-all"
                   >
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <div className="flex items-center gap-3 mb-2">
-                          <h3 className="text-xl font-semibold text-white">
+                    <div className="flex flex-col md:flex-row items-start justify-between gap-4">
+                      <div className="flex-1 min-w-0 w-full">
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-3">
+                          <h3 className="text-lg md:text-xl font-semibold text-white truncate">
                             {booking.title || `Event #${booking.eventId}`}
                           </h3>
-                          <span className={`px-3 py-1 rounded-full text-xs font-semibold border ${getStatusColor(booking.status)}`}>
+                          <span className={`px-3 py-1 rounded-full text-xs font-semibold border ${getStatusColor(booking.status)} w-fit`}>
                             {booking.status.toUpperCase()}
                           </span>
                         </div>
                         
                         <div className="space-y-2 text-sm text-gray-400">
                           {booking.date && (
-                            <p className="flex items-center gap-2">
-                              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <p className="flex items-start gap-2">
+                              <svg className="w-4 h-4 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                               </svg>
-                              {new Date(booking.date).toLocaleDateString('en-US', {
-                                weekday: 'long',
-                                year: 'numeric',
-                                month: 'long',
-                                day: 'numeric',
-                              })}
+                              <span className="break-words">
+                                {new Date(booking.date).toLocaleDateString('en-US', {
+                                  weekday: 'long',
+                                  year: 'numeric',
+                                  month: 'long',
+                                  day: 'numeric',
+                                })}
+                              </span>
                             </p>
                           )}
                           {booking.location && (
-                            <p className="flex items-center gap-2">
-                              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <p className="flex items-start gap-2">
+                              <svg className="w-4 h-4 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                               </svg>
-                              {booking.location}
+                              <span className="break-words">{booking.location}</span>
                             </p>
                           )}
                           <p className="flex items-center gap-2">
-                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                             </svg>
                             Tickets: {booking.quantity}
                           </p>
                           <p className="flex items-center gap-2">
-                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                             Total: ₹{booking.totalAmount.toFixed(2)}
                           </p>
-                          <p className="text-xs text-gray-500">
+                          <p className="text-xs text-gray-500 break-words">
                             Booked on {new Date(booking.createdAt).toLocaleString()}
                           </p>
                         </div>
@@ -209,7 +211,7 @@ export default function UserDashboard() {
                         <img
                           src={booking.image}
                           alt={booking.title}
-                          className="w-24 h-24 rounded-lg object-cover ml-4"
+                          className="w-full md:w-24 h-32 md:h-24 rounded-lg object-cover"
                         />
                       )}
                     </div>
