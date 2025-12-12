@@ -108,7 +108,7 @@ export default function BookingForm({ event }: BookingFormProps) {
           max={maxAllowed} 
           value={quantity} 
           onChange={e => setQuantity(Number(e.target.value))} 
-          disabled={loading || selectedSeats.length > 0}
+          disabled={loading}
           className="w-24 border rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:bg-gray-100" 
         />
         <div className="text-xs text-gray-500 mt-1">Available: {maxAllowed}</div>
