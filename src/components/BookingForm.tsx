@@ -57,7 +57,7 @@ export default function BookingForm({ event, selectedSeats = [] }: BookingFormPr
 
     setLoading(true);
     try {
-      const bookingData: any = { 
+      const bookingData = { 
         eventId: event.id, 
         name, 
         email, 
@@ -65,14 +65,6 @@ export default function BookingForm({ event, selectedSeats = [] }: BookingFormPr
         quantity,
         totalAmount: quantity * Number(event.price)
       };
-
-      // Add seats if selected
-      if (selectedSeats.length > 0) {
-        bookingData.seats = selectedSeats;
-      } else {
-        // Generate seat numbers if not selected
-        bookingData.seats = Array.from({ length: quantity }, (_, i) => i + 1);
-      }
 
       const res = await api.post('/bookings', bookingData);
       const booking = res.data.data ?? res.data.booking ?? res.data;
