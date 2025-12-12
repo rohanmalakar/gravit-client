@@ -14,7 +14,7 @@ export default function EventCard({ event }: EventCardProps) {
       className="bg-white rounded-lg shadow p-4 transition-shadow hover:shadow-lg"
     >
       <img 
-        src={event.img || '/placeholder.jpg'} 
+        src={event.image || '/placeholder.jpg'} 
         alt={event.title} 
         className="w-full h-44 object-cover rounded" 
       />
@@ -24,9 +24,9 @@ export default function EventCard({ event }: EventCardProps) {
       </p>
       <div className="flex items-center justify-between mt-3">
         <div>
-          <div className="text-sm text-gray-500">₹{Number(event.price).toFixed(2)}</div>
+          <div className="text-sm text-gray-500">₹{Number(event.price || 0).toFixed(2)}</div>
           <div className="text-xs text-gray-400">
-            Available: {event.available_seats ?? '—'}
+            Available: {event.availableSeats ?? '—'}
           </div>
         </div>
         <Link 

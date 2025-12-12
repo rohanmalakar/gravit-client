@@ -21,7 +21,7 @@ export default function BookingForm({ event, selectedSeats = [] }: BookingFormPr
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const maxAllowed = (event as any).availableSeats ?? (event as any).available_seats ?? 0;
+  const maxAllowed = event.availableSeats ?? 0;
 
   // Auto-fill user info if authenticated
   useEffect(() => {

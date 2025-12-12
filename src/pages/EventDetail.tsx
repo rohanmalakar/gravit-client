@@ -32,7 +32,7 @@ export default function EventDetail() {
   useSocket(update => {
     if (update.event_id === Number(id)) {
       setEvent(prev => 
-        prev ? { ...prev, available_seats: update.available_seats } : prev
+        prev ? { ...prev, availableSeats: update.availableSeats } : prev
       );
     }
   });
@@ -58,7 +58,7 @@ export default function EventDetail() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div>
           <img 
-            src={event.img || '/placeholder.jpg'} 
+            src={event.image || '/placeholder.jpg'} 
             alt={event.title} 
             className="w-full h-96 object-cover rounded-lg shadow" 
           />
@@ -72,10 +72,10 @@ export default function EventDetail() {
         <aside className="bg-white rounded-lg p-6 shadow-lg h-fit">
           <div className="mb-4">
             <div className="text-sm text-gray-500">Price</div>
-            <div className="text-2xl font-medium">₹{Number(event.price).toFixed(2)}</div>
+            <div className="text-2xl font-medium">₹{Number(event.price || 0).toFixed(2)}</div>
           </div>
           <div className="mb-4 text-sm text-gray-600">
-            Available seats: <span className="font-semibold text-lg">{event.available_seats}</span>
+            Available seats: <span className="font-semibold text-lg">{event.availableSeats}</span>
           </div>
 
           <BookingForm event={event} />

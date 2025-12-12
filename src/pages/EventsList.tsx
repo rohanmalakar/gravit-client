@@ -33,7 +33,7 @@ export default function EventsList() {
     setEvents(prev => 
       prev.map(ev => 
         ev.id === update.event_id 
-          ? { ...ev, available_seats: update.available_seats } 
+          ? { ...ev, availableSeats: update.availableSeats } 
           : ev
       )
     );

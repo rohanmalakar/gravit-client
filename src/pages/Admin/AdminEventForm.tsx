@@ -20,9 +20,9 @@ interface EventForm {
   description: string;
   location: string;
   date: string;
-  total_seats: number;
+  totalSeats: number;
   price: number;
-  img: string;
+  image: string;
 }
 
 export default function AdminEventForm() {
@@ -33,9 +33,9 @@ export default function AdminEventForm() {
     description: '',
     location: '',
     date: '',
-    total_seats: 0,
+    totalSeats: 0,
     price: 0,
-    img: ''
+    image: ''
   });
 
   useEffect(() => {
@@ -50,9 +50,9 @@ export default function AdminEventForm() {
           description: event.description || '',
           location: event.location || '',
           date: event.date ? new Date(event.date).toISOString().slice(0, 16) : '',
-          total_seats: event.total_seats || 0,
+          totalSeats: event.totalSeats || 0,
           price: event.price || 0,
-          img: event.img || ''
+          image: event.image || ''
         });
       } catch (e: any) {
         alert(e.message || 'Load error');
@@ -69,9 +69,9 @@ export default function AdminEventForm() {
         description: form.description,
         location: form.location,
         date: form.date,
-        totalSeats: form.total_seats,  // Convert to camelCase
+        totalSeats: form.totalSeats,
         price: form.price,
-        image: form.img,  // Convert img to image
+        image: form.image,
         status: 'upcoming'
       };
 
@@ -194,8 +194,8 @@ export default function AdminEventForm() {
                   <Users className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                   <input 
                     type="number" 
-                    value={form.total_seats} 
-                    onChange={e => setForm({ ...form, total_seats: Number(e.target.value) })} 
+                    value={form.totalSeats} 
+                    onChange={e => setForm({ ...form, totalSeats: Number(e.target.value) })} 
                     placeholder="100" 
                     min="1"
                     className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all" 
@@ -230,17 +230,17 @@ export default function AdminEventForm() {
               <div className="relative">
                 <ImageIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                 <input 
-                  value={form.img} 
-                  onChange={e => setForm({ ...form, img: e.target.value })} 
+                  value={form.image} 
+                  onChange={e => setForm({ ...form, image: e.target.value })} 
                   placeholder="https://example.com/event-image.jpg" 
                   type="url"
                   className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all" 
                 />
               </div>
-              {form.img && (
+              {form.image && (
                 <div className="mt-3 rounded-lg overflow-hidden border border-gray-200">
                   <img 
-                    src={form.img} 
+                    src={form.image} 
                     alt="Preview" 
                     className="w-full h-48 object-cover"
                     onError={(e) => {

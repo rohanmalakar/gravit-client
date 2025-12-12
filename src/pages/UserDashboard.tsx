@@ -18,7 +18,7 @@ interface Booking {
   title?: string;
   date?: string;
   location?: string;
-  img?: string;
+  image?: string;
 }
 
 export default function UserDashboard() {
@@ -206,9 +206,9 @@ export default function UserDashboard() {
                         </div>
                       </div>
                       
-                      {booking.img && (
+                      {booking.image && (
                         <img
-                          src={booking.img}
+                          src={booking.image}
                           alt={booking.title}
                           className="w-24 h-24 rounded-lg object-cover ml-4"
                         />

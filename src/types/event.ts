@@ -5,10 +5,11 @@ export interface Event {
   description?: string;
   location: string;
   date: string;
-  total_seats: number;
-  available_seats: number;
+  totalSeats: number;
+  availableSeats: number;
   price: number;
-  img?: string;
+  image?: string;
+  status?: string;
   createdAt?: string;
   updatedAt?: string;
 }
@@ -26,5 +27,5 @@ export interface Booking {
 
 export interface SeatUpdatePayload {
   event_id: number;
-  available_seats: number;
+  availableSeats: number;
 }

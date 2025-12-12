@@ -99,7 +99,7 @@ export default function AdminEvents() {
                     </div>
                     <div className="flex items-center gap-4 text-xs">
                       <span className="px-3 py-1 bg-blue-900/50 text-blue-300 border border-blue-700 rounded-full">
-                        💺 Available: {e.available_seats} / {e.total_seats}
+                        💺 Available: {e.availableSeats} / {e.totalSeats}
                       </span>
                       <span className="px-3 py-1 bg-green-900/50 text-green-300 border border-green-700 rounded-full">
                         💰 ${e.price}
