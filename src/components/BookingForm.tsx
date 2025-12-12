@@ -120,7 +120,7 @@ export default function BookingForm({ event }: BookingFormProps) {
         disabled={loading || maxAllowed === 0 || !isAuthenticated}
         className="w-full bg-indigo-600 text-white rounded px-4 py-2 disabled:opacity-60 disabled:cursor-not-allowed hover:bg-indigo-700 transition"
       >
-        {loading ? 'Booking…' : `Pay $${(quantity * Number(event.price)).toFixed(2)}`}
+        {loading ? 'Booking…' : `Pay ₹${(quantity * Number(event.price)).toFixed(2)}`}
       </motion.button>
 
       {maxAllowed === 0 && (

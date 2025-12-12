@@ -23,25 +23,25 @@ const HeroSection: React.FC = () => {
   return (
     <section 
       style={backgroundStyle} 
-      className={`min-h-screen flex items-center justify-center p-6 ${primaryColor} ${textColor}`}
+      className={`min-h-[600px] md:min-h-screen flex items-center justify-center p-4 md:p-6 ${primaryColor} ${textColor}`}
     >
       {/* Content Container - Limits width on desktop */}
-      <div className="max-w-4xl w-full text-center py-20 md:py-32">
+      <div className="max-w-4xl w-full text-center py-12 md:py-20 lg:py-32">
 
         {/* --- Main Headline --- */}
-        <h1 className={`text-5xl sm:text-6xl md:text-7xl font-extrabold leading-tight ${highlightColor} mb-8`}>
+        <h1 className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight ${highlightColor} mb-6 md:mb-8`}>
           Discover. Book.
           Experience. Unforgettable Events
         </h1>
 
         {/* --- Subtext --- */}
-        <p className={`text-xl md:text-2xl font-semibold max-w-2xl mx-auto mb-16 px-4`}>
+        <p className={`text-base md:text-lg lg:text-xl font-semibold max-w-2xl mx-auto mb-8 md:mb-12 lg:mb-16 px-4`}>
           Book tickets instantly for concerts, conferences, workshops, and exclusive events. Real-time booking with instant confirmation.
         </p>
 
 
         {/* --- CTA Section --- */}
-        <div className="mt-20 flex flex-col sm:flex-row items-center justify-center gap-6">
+        <div className="mt-8 md:mt-12 lg:mt-20 flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6">
           <AnimatedTicketButton />
           <div className="flex items-center gap-3">
             {/* Calendar Icon */}

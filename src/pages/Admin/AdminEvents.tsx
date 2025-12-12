@@ -102,7 +102,7 @@ export default function AdminEvents() {
                         💺 Available: {e.availableSeats} / {e.totalSeats}
                       </span>
                       <span className="px-3 py-1 bg-green-900/50 text-green-300 border border-green-700 rounded-full">
-                        💰 ${e.price}
+                        💰 ₹{e.price}
                       </span>
                     </div>
                   </div>

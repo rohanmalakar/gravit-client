@@ -61,7 +61,7 @@ export default function BookingSuccess() {
           </div>
           <div className="flex justify-between text-lg font-semibold border-t pt-3 mt-3">
             <strong>Total:</strong> 
-            <span>${Number(booking.totalAmount).toFixed(2)}</span>
+            <span>₹{Number(booking.totalAmount).toFixed(2)}</span>
           </div>
         </div>
 

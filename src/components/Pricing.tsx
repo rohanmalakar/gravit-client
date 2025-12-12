@@ -130,7 +130,7 @@ const PricingSection: React.FC = () => {
                 Premium Member
               </span>
               <div className="flex items-baseline gap-2 mb-8">
-                <span className="text-7xl md:text-8xl font-bold text-yellow-300">$49</span>
+                <span className="text-7xl md:text-8xl font-bold text-yellow-300">₹499</span>
                 <span className="text-white/60 text-xl">/month</span>
               </div>
               <p className="text-white/70 text-lg mb-8">
