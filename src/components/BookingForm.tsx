@@ -9,15 +9,14 @@ import type { Event } from '../types/event';
 
 interface BookingFormProps {
   event: Event;
-  selectedSeats?: number[];
 }
 
-export default function BookingForm({ event, selectedSeats = [] }: BookingFormProps) {
+export default function BookingForm({ event }: BookingFormProps) {
   const { user, isAuthenticated } = useAuth();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [mobile, setMobile] = useState('');
-  const [quantity, setQuantity] = useState(selectedSeats.length || 1);
+  const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -30,13 +29,6 @@ export default function BookingForm({ event, selectedSeats = [] }: BookingFormPr
       setEmail(user.email);
     }
   }, [user]);
-
-  // Update quantity when selectedSeats changes
-  useEffect(() => {
-    if (selectedSeats.length > 0) {
-      setQuantity(selectedSeats.length);
-    }
-  }, [selectedSeats]);
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
@@ -81,12 +73,6 @@ export default function BookingForm({ event, selectedSeats = [] }: BookingFormPr
       {!isAuthenticated && (
         <div className="bg-yellow-50 border border-yellow-200 text-yellow-800 px-4 py-3 rounded mb-4">
           <p className="text-sm">Please log in to book tickets.</p>
-        </div>
-      )}
-
-      {selectedSeats.length > 0 && (
-        <div className="bg-purple-50 border border-purple-200 text-purple-800 px-4 py-3 rounded">
-          <p className="text-sm font-medium">Selected Seats: {selectedSeats.join(', ')}</p>
         </div>
       )}
 

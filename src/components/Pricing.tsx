@@ -24,19 +24,22 @@ const PricingSection: React.FC = () => {
   const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.9, 0.95, 1]);
 
   const basicFeatures = [
-    'Full event access',
-    'Access to keynote & breakout sessions',
-    'Networking opportunities',
-    'Access to post-event session recordings',
-    'Conference materials and swag bag'
+    'Real-time seat availability',
+    'Instant booking confirmation',
+    'Secure payment gateway',
+    'E-ticket delivery via email',
+    'QR code for easy check-in',
+    '24/7 customer support'
   ];
 
   const premiumFeatures = [
-    'Full event access',
-    'Access to keynote & breakout sessions',
-    'Networking opportunities',
-    'Access to post-event session recordings',
-    'Conference materials and swag bag'
+    'All Basic features included',
+    'Priority seating selection',
+    'Early access to new events',
+    'Exclusive discounts & offers',
+    'Mobile app access',
+    'Booking history & analytics',
+    'Multi-event package deals'
   ];
 
   return (
@@ -60,12 +63,12 @@ const PricingSection: React.FC = () => {
           className="relative z-10 text-center pt-20 pb-16 px-8"
         >
           <h1 className="text-5xl md:text-7xl font-bold text-yellow-300 mb-6">
-            Pricing For Tickets
+            Event Booking Benefits
           </h1>
           <p className="text-white/80 text-lg md:text-xl max-w-3xl mx-auto">
-            Explore our lineup of keynote speakers and industry <span className="text-white/60">leaders who</span>
+            Experience seamless event booking with <span className="text-white/60">real-time seat availability,</span>
             <br />
-            <span className="text-white/60">will inspire and enlighten at the conference.</span>
+            <span className="text-white/60">instant confirmations, and secure payment processing.</span>
           </p>
         </motion.div>
 
@@ -85,13 +88,13 @@ const PricingSection: React.FC = () => {
           >
             <div className="mb-8">
               <span className="inline-block px-6 py-2 bg-purple-400/30 rounded-full text-white text-lg mb-6">
-                Basic
+                Standard User
               </span>
               <div className="flex items-baseline gap-2 mb-8">
-                <span className="text-7xl md:text-8xl font-bold text-yellow-300">$99</span>
+                <span className="text-7xl md:text-8xl font-bold text-yellow-300">Free</span>
               </div>
               <p className="text-white/70 text-lg mb-8">
-                Explore our lineup of keynote speakers and industry <span className="text-white/50">leaders who will inspire and enlighten at the conference.</span>
+                Perfect for casual event-goers. <span className="text-white/50">Get access to all essential booking features with no subscription fees.</span>
               </p>
             </div>
 
@@ -124,13 +127,14 @@ const PricingSection: React.FC = () => {
           >
             <div className="mb-8">
               <span className="inline-block px-6 py-2 bg-purple-400/30 rounded-full text-white text-lg mb-6">
-                Premium
+                Premium Member
               </span>
               <div className="flex items-baseline gap-2 mb-8">
-                <span className="text-7xl md:text-8xl font-bold text-yellow-300">$399</span>
+                <span className="text-7xl md:text-8xl font-bold text-yellow-300">$49</span>
+                <span className="text-white/60 text-xl">/month</span>
               </div>
               <p className="text-white/70 text-lg mb-8">
-                Explore our lineup of keynote speakers and industry <span className="text-white/50">leaders who will inspire and enlighten at the conference.</span>
+                For frequent event attendees. <span className="text-white/50">Unlock exclusive perks, discounts, and priority access to hottest events.</span>
               </p>
             </div>
 

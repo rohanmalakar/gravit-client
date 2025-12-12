@@ -95,7 +95,7 @@ const SummitraCountdown: React.FC = () => {
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 sm:mb-8 md:mb-10 lg:mb-12">
-            About
+            Next Big Event Starts In
           </h1>
         </motion.div>
 
@@ -106,10 +106,10 @@ const SummitraCountdown: React.FC = () => {
           className="mb-8 sm:mb-10 md:mb-12 lg:mb-16"
         >
           <p className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-gray-300 leading-relaxed">
-            Summitra 2025 is an immersive, IT Conference over the course of three days,{' '}
-            <span className="text-purple-400 font-semibold">August 13-15</span>. Our mission,{' '}
-            <span className="text-gray-500">
-              the challenges. A person's success is measured by the way they approach it and how they approach it.
+            Join thousands of attendees for an unforgettable experience.{' '}
+            <span className="text-purple-400 font-semibold">Book your tickets now</span> and secure your spot{' '}
+            <span className="text-gray-400">
+              for exclusive events, workshops, and networking opportunities with real-time seat availability.
             </span>
           </p>
         </motion.div>

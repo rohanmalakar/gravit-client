@@ -8,7 +8,6 @@ interface Booking {
   id: number;
   eventId: number;
   userId: number;
-  seats: number[];
   quantity: number;
   totalAmount: number;
   status: string;

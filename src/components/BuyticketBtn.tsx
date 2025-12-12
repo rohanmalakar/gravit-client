@@ -1,13 +1,17 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ChevronRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const AnimatedTicketButton: React.FC = () => {
+  const navigate = useNavigate();
+  
   return (
       <motion.button
+        onClick={() => navigate('/events')}
         whileHover="hover"
         whileTap={{ scale: 0.98 }}
-        className="relative overflow-hidden bg-white rounded-full pl-4 pr-1.5 py-1.5 shadow-lg group w-fit"
+        className="relative overflow-hidden bg-white rounded-full pl-4 pr-1.5 py-1.5 shadow-lg group w-fit cursor-pointer"
       >
         <div className="flex items-center gap-2">
           {/* Text Container */}

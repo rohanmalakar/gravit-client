@@ -9,14 +9,14 @@ interface FAQItem {
 }
 
 const faqData: FAQItem[] = [
-  { id: 1, question: "Will the talks be recorded?", answer: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters." },
-  { id: 2, question: "What is the conference about?", answer: "Depending on the level of your ticket, you may receive early access, reserved seating, or bonus gifts. Benefits are designed to enhance your experience and are clearly listed when you book." },
-  { id: 3, question: "Is this event just for designers?", answer: "With your ticket, you'll receive entry to the event and access to all included features. These may range from general admission to VIP perks. Every tier offers something a little different." },
-  { id: 4, question: "Are there any perks with my ticket?", answer: "Ticket packages vary but often include entry, merchandise, and access to special areas or experiences. Premium packages may also feature food, drink, or exclusive meet-and-greets." },
-  { id: 5, question: "Does my ticket cover everything?", answer: "Most tickets include access to the main attractions, but some areas, services, or merchandise might require an upgrade. It's important to verify what's included to avoid surprises on event day." },
-  { id: 6, question: "What does my ticket include?", answer: "Of course! Each ticket includes a specific set of features like entry, activities, and sometimes extras. Your confirmation email or event page has all the details you need." },
-  { id: 7, question: "Can I refund or transfer my ticket?", answer: "Yes! Every ticket includes base-level access to the event. Higher-tier tickets may also include special perks like lounge access, priority entry, or complimentary items." },
-  { id: 8, question: "How to become a speaker?", answer: "Speaker applications are typically open 6 months prior to the event. Please check our 'Get Involved' page for submission guidelines and deadlines." },
+  { id: 1, question: "How do I book tickets for an event?", answer: "Simply browse our events page, select your desired event, choose the number of tickets you need, and complete the secure checkout process. You'll receive instant confirmation via email with your booking details and ticket information." },
+  { id: 2, question: "Can I get a refund if I cancel my booking?", answer: "Refund policies vary by event. Most events offer full refunds if cancelled 7 days before the event date. Please check the specific event's cancellation policy on the event details page before booking." },
+  { id: 3, question: "How does real-time seat availability work?", answer: "Our system updates seat availability in real-time as bookings are made. When you book tickets, seats are automatically assigned and reserved for you instantly. You'll see the exact number of available seats before completing your purchase." },
+  { id: 4, question: "Will I receive my tickets immediately?", answer: "Yes! Upon successful payment, you'll receive an instant email confirmation with your booking details. Your tickets will be available in your dashboard and can be downloaded as PDF or accessed via QR code for easy check-in at the event." },
+  { id: 5, question: "What payment methods do you accept?", answer: "We accept all major credit and debit cards, UPI payments, net banking, and digital wallets. All transactions are processed through secure, encrypted payment gateways to ensure your financial information is protected." },
+  { id: 6, question: "Can I book multiple tickets at once?", answer: "Absolutely! You can book multiple tickets in a single transaction. Just select the quantity you need during checkout. All tickets from the same booking will be linked to your account for easy management." },
+  { id: 7, question: "How do I find upcoming events?", answer: "Visit our Events page to browse all upcoming events. You can filter by date, location, category, and price range. Each event listing shows real-time availability, pricing, and detailed information to help you make your choice." },
+  { id: 8, question: "What if an event gets cancelled?", answer: "In the rare case of event cancellation, you'll be notified immediately via email and SMS. Full refunds are automatically processed within 5-7 business days. You can track your refund status in your account dashboard." },
 ];
 
 interface FAQCardProps {

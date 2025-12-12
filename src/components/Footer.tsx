@@ -3,11 +3,11 @@ import { motion } from 'framer-motion';
 
 const SummitraFooter: React.FC = () => {
   const footerLinks = [
-    { label: 'Style guide', href: '#' },
-    { label: 'Instructions', href: '#' },
-    { label: 'License', href: '#' },
-    { label: 'Changelog', href: '#' },
-    { label: '404', href: '#' },
+    { label: 'Browse Events', href: '/events' },
+    { label: 'My Bookings', href: '/dashboard' },
+    { label: 'About Us', href: '#' },
+    { label: 'Contact', href: '#' },
+    { label: 'Help Center', href: '#' },
   ];
 
   const containerVariants = {
@@ -69,11 +69,11 @@ const SummitraFooter: React.FC = () => {
               variants={itemVariants}
               className="text-purple-100 text-base md:text-lg leading-relaxed"
             >
-              Thank you for exploring our world through the lens.
+              Your trusted platform for discovering and booking
               <br />
-              From capturing cherished memories to unveiling
+              unforgettable events. From concerts to conferences,
               <br />
-              the beauty of the everyday.
+              we make event booking simple and secure.
             </motion.p>
           </motion.div>
 
@@ -86,7 +86,7 @@ const SummitraFooter: React.FC = () => {
               whileHover={{ scale: 1.05 }}
               className="inline-block px-8 py-3 border-2 border-white/30 rounded-full backdrop-blur-sm"
             >
-              <span className="text-white text-lg font-medium">August 20</span>
+              <span className="text-white text-lg font-medium">Events Live Now</span>
             </motion.div>
             <motion.div
               variants={itemVariants}
@@ -98,9 +98,9 @@ const SummitraFooter: React.FC = () => {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
               >
-                Largest 2025 IT
+                Real-Time Event
                 <br />
-                Conference.
+                Booking Platform
               </motion.h3>
             </motion.div>
           </motion.div>
@@ -138,7 +138,7 @@ const SummitraFooter: React.FC = () => {
             variants={itemVariants}
             className="text-purple-200 text-sm md:text-base"
           >
-            Design by Summitra - Powered by Webflow
+            © 2025 Summitra Events - All Rights Reserved
           </motion.p>
         </motion.div>
       </div>
