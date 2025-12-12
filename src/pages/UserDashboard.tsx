@@ -36,9 +36,11 @@ export default function UserDashboard() {
       const response = await api.get('/bookings', {
         params: { userId: user?.id }
       });
-      setBookings(response.data.data || []);
+      const data = response.data.data ?? response.data;
+      setBookings(Array.isArray(data) ? data : []);
     } catch (err: any) {
       setError(err.message || 'Failed to load bookings');
+      setBookings([]);
     } finally {
       setLoading(false);
     }

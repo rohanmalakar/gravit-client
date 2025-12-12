@@ -13,8 +13,8 @@ export default function EventsList() {
     setLoading(true);
     try {
       const res = await api.get('/events');
-      // expect res.data.events or res.data
-      const payload = res.data.events ?? res.data;
+      // API returns: { success: true, message: "...", data: [...] }
+      const payload = res.data.data ?? res.data.events ?? res.data;
       setEvents(Array.isArray(payload) ? payload : []);
     } catch (e) {
       console.error('Events load error', e);
@@ -41,22 +41,53 @@ export default function EventsList() {
 
   if (loading) {
     return (
-      <div className="p-6 text-center">
-        <div className="text-gray-600">Loading events…</div>
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="text-center">
+          <div className="inline-block animate-spin rounded-full h-16 w-16 border-b-2 border-purple-500 mb-4"></div>
+          <p className="text-gray-400 text-lg">Loading events...</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <main className="container mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6">Events</h1>
-      {events.length === 0 ? (
-        <div className="text-gray-600">No events found.</div>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {events.map(e => <EventCard key={e.id} event={e} />)}
-        </div>
-      )}
+    <main className="min-h-screen bg-black py-20 px-4">
+      <div className="container mx-auto max-w-7xl">
+        <h1 className="text-4xl md:text-5xl font-bold mb-8 text-white text-center">Upcoming Events</h1>
+        {events.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-20">
+            <div className="bg-gray-800/50 backdrop-blur-lg rounded-2xl shadow-2xl border border-gray-700 p-12 max-w-md text-center">
+              <svg 
+                className="mx-auto h-24 w-24 text-gray-600 mb-6" 
+                fill="none" 
+                viewBox="0 0 24 24" 
+                stroke="currentColor"
+              >
+                <path 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round" 
+                  strokeWidth={1.5} 
+                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" 
+                />
+              </svg>
+              <h3 className="text-2xl font-bold text-white mb-3">No Events Available</h3>
+              <p className="text-gray-400 mb-6">
+                There are currently no events scheduled. Check back soon for upcoming events!
+              </p>
+              <button
+                onClick={load}
+                className="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-lg transition-all font-medium shadow-lg"
+              >
+                Refresh Events
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {events.map(e => <EventCard key={e.id} event={e} />)}
+          </div>
+        )}
+      </div>
     </main>
   );
 }
