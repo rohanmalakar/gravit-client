@@ -2,11 +2,14 @@
 import { useEffect, useState } from 'react';
 import { adminApi } from '../../api/apiClient';
 import { Link } from 'react-router-dom';
+import Sidebar from '../../components/Sidebar';
 import type { Event } from '../../types/event';
 
 export default function AdminEvents() {
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
 
   async function load() {
     setLoading(true);
@@ -36,29 +39,62 @@ export default function AdminEvents() {
     }
   }
 
-  return (
-    <main className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 py-12 pt-24 px-4">
-      <div className="container mx-auto max-w-6xl">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
-          <h1 className="text-3xl md:text-4xl font-bold text-white">Admin — Events</h1>
-          <Link 
-            to="/admin/events/new" 
-            className="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-lg transition-all font-medium shadow-lg"
-          >
-            + Create Event
-          </Link>
-        </div>
+  const filteredEvents = events.filter((event) =>
+    event.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    event.location?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
-        {loading ? (
-          <div className="flex items-center justify-center py-20">
-            <div className="text-center">
-              <div className="inline-block animate-spin rounded-full h-16 w-16 border-b-2 border-purple-500 mb-4"></div>
-              <p className="text-gray-400 text-lg">Loading events...</p>
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900">
+      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      
+      <div className="lg:ml-64">
+        {/* Top Bar */}
+        <header className="bg-gray-900/50 backdrop-blur-lg border-b border-gray-700 sticky top-0 z-30">
+          <div className="px-4 py-4 flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <button
+                onClick={() => setSidebarOpen(true)}
+                className="lg:hidden text-gray-400 hover:text-white"
+              >
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </button>
+              <h1 className="text-2xl font-bold text-white">Manage Events</h1>
             </div>
+            <Link
+              to="/admin/events/new"
+              className="px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-lg transition text-sm font-medium shadow-lg"
+            >
+              + Create Event
+            </Link>
           </div>
-        ) : (
-          <div className="space-y-4">
-            {events.length === 0 ? (
+        </header>
+
+        {/* Main Content */}
+        <main className="p-6">
+          {/* Search Bar */}
+          <div className="bg-gray-800/50 backdrop-blur-lg rounded-xl border border-gray-700 p-4 mb-6">
+            <input
+              type="text"
+              placeholder="Search events by name or location..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500"
+            />
+          </div>
+
+            {loading ? (
+            <div className="flex items-center justify-center py-20">
+              <div className="text-center">
+                <div className="inline-block animate-spin rounded-full h-16 w-16 border-b-2 border-purple-500 mb-4"></div>
+                <p className="text-gray-400 text-lg">Loading events...</p>
+              </div>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {filteredEvents.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-20">
                 <div className="bg-gray-800/50 backdrop-blur-lg rounded-2xl shadow-2xl border border-gray-700 p-12 max-w-md text-center">
                   <svg 
@@ -76,7 +112,9 @@ export default function AdminEvents() {
                   </svg>
                   <h3 className="text-2xl font-bold text-white mb-3">No Events Created</h3>
                   <p className="text-gray-400 mb-6">
-                    Get started by creating your first event. Click the button below to begin!
+                    {searchTerm
+                      ? 'No events match your search. Try different keywords.'
+                      : 'Get started by creating your first event. Click the button below to begin!'}
                   </p>
                   <Link
                     to="/admin/events/new"
@@ -87,7 +125,7 @@ export default function AdminEvents() {
                 </div>
               </div>
             ) : (
-              events.map(e => (
+              filteredEvents.map(e => (
                 <div 
                   key={e.id} 
                   className="flex flex-col md:flex-row items-start md:items-center justify-between bg-gray-800/50 backdrop-blur-lg border border-gray-700 p-6 rounded-xl shadow-lg hover:shadow-xl hover:border-purple-500 transition-all"
@@ -125,7 +163,8 @@ export default function AdminEvents() {
             )}
           </div>
         )}
+        </main>
       </div>
-    </main>
+    </div>
   );
 }

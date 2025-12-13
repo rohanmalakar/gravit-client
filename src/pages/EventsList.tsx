@@ -8,6 +8,8 @@ import type { Event } from '../types/event';
 export default function EventsList() {
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [dateFilter, setDateFilter] = useState('');
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -39,6 +41,17 @@ export default function EventsList() {
     );
   });
 
+  // Filter events based on search and date
+  const filteredEvents = events.filter((event) => {
+    const matchesSearch = event.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         event.location?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         event.description?.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    const matchesDate = !dateFilter || new Date(event.date).toISOString().split('T')[0] === dateFilter;
+    
+    return matchesSearch && matchesDate;
+  });
+
   if (loading) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center pt-20">
@@ -54,7 +67,53 @@ export default function EventsList() {
     <main className="min-h-screen bg-black py-20 pt-24 px-4">
       <div className="container mx-auto max-w-7xl">
         <h1 className="text-4xl md:text-5xl font-bold mb-8 text-white text-center">Upcoming Events</h1>
-        {events.length === 0 ? (
+        
+        {/* Search and Filter Section */}
+        <div className="bg-gray-800/50 backdrop-blur-lg rounded-xl border border-gray-700 p-4 md:p-6 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-400 mb-2">
+                🔍 Search Events
+              </label>
+              <input
+                type="text"
+                placeholder="Search by name, location, or description..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-400 mb-2">
+                📅 Filter by Date
+              </label>
+              <input
+                type="date"
+                value={dateFilter}
+                onChange={(e) => setDateFilter(e.target.value)}
+                className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-purple-500 transition"
+              />
+            </div>
+          </div>
+          {(searchTerm || dateFilter) && (
+            <div className="mt-4 flex items-center justify-between">
+              <p className="text-gray-400 text-sm">
+                Found {filteredEvents.length} event(s)
+              </p>
+              <button
+                onClick={() => {
+                  setSearchTerm('');
+                  setDateFilter('');
+                }}
+                className="text-purple-400 hover:text-purple-300 text-sm font-medium"
+              >
+                Clear Filters
+              </button>
+            </div>
+          )}
+        </div>
+
+        {filteredEvents.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20">
             <div className="bg-gray-800/50 backdrop-blur-lg rounded-2xl shadow-2xl border border-gray-700 p-12 max-w-md text-center">
               <svg 
@@ -72,7 +131,9 @@ export default function EventsList() {
               </svg>
               <h3 className="text-2xl font-bold text-white mb-3">No Events Available</h3>
               <p className="text-gray-400 mb-6">
-                There are currently no events scheduled. Check back soon for upcoming events!
+                {searchTerm || dateFilter
+                  ? 'No events match your search criteria. Try adjusting your filters.'
+                  : 'There are currently no events scheduled. Check back soon for upcoming events!'}
               </p>
               <button
                 onClick={load}
@@ -84,7 +145,7 @@ export default function EventsList() {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {events.map(e => <EventCard key={e.id} event={e} />)}
+            {filteredEvents.map(e => <EventCard key={e.id} event={e} />)}
           </div>
         )}
       </div>

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import api from '../api/apiClient';
 import Container from '../components/Container';
+import Sidebar from '../components/Sidebar';
 
 interface Booking {
   id: number;
@@ -24,7 +25,8 @@ export default function UserDashboard() {
   const { user, logout } = useAuth();
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [filterTag, setFilterTag] = useState<'all' | 'upcoming' | 'completed'>('all');
 
   useEffect(() => {
     fetchBookings();
@@ -38,7 +40,7 @@ export default function UserDashboard() {
       const data = response.data.data ?? response.data;
       setBookings(Array.isArray(data) ? data : []);
     } catch (err: any) {
-      setError(err.message || 'Failed to load bookings');
+      console.error('Failed to load bookings:', err);
       setBookings([]);
     } finally {
       setLoading(false);
@@ -58,8 +60,50 @@ export default function UserDashboard() {
     }
   };
 
+  // Filter bookings based on tag
+  const filteredBookings = bookings.filter((booking) => {
+    if (filterTag === 'all') return true;
+    
+    const eventDate = booking.date ? new Date(booking.date) : null;
+    const now = new Date();
+    
+    if (filterTag === 'upcoming') {
+      return eventDate && eventDate > now && booking.status !== 'cancelled';
+    } else if (filterTag === 'completed') {
+      return eventDate && eventDate <= now || booking.status === 'cancelled';
+    }
+    
+    return true;
+  });
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 py-12 pt-24">
+      {user?.role !== 'admin' && (
+        <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      )}
+      
+      <div className={user?.role !== 'admin' ? 'lg:ml-64' : ''}>
+        {user?.role !== 'admin' && (
+          <header className="bg-gray-900/50 backdrop-blur-lg border-b border-gray-700 fixed top-0 left-0 right-0 z-30 lg:left-64">
+            <div className="px-4 py-4 flex items-center justify-between">
+              <button
+                onClick={() => setSidebarOpen(true)}
+                className="lg:hidden text-gray-400 hover:text-white"
+              >
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </button>
+              <h1 className="text-xl font-bold text-white">My Dashboard</h1>
+              <button
+                onClick={logout}
+                className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition text-sm"
+              >
+                Logout
+              </button>
+            </div>
+          </header>
+        )}
       <Container>
         <div className="max-w-6xl mx-auto">
           {/* User Profile Section */}
@@ -123,14 +167,50 @@ export default function UserDashboard() {
               </Link>
             </div>
 
+            {/* Filter Tags */}
+            <div className="flex flex-wrap gap-2 mb-6">
+              <button
+                onClick={() => setFilterTag('all')}
+                className={`px-4 py-2 rounded-lg font-medium transition ${
+                  filterTag === 'all'
+                    ? 'bg-purple-600 text-white'
+                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                }`}
+              >
+                All ({bookings.length})
+              </button>
+              <button
+                onClick={() => setFilterTag('upcoming')}
+                className={`px-4 py-2 rounded-lg font-medium transition ${
+                  filterTag === 'upcoming'
+                    ? 'bg-green-600 text-white'
+                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                }`}
+              >
+                Upcoming ({bookings.filter(b => {
+                  const eventDate = b.date ? new Date(b.date) : null;
+                  return eventDate && eventDate > new Date() && b.status !== 'cancelled';
+                }).length})
+              </button>
+              <button
+                onClick={() => setFilterTag('completed')}
+                className={`px-4 py-2 rounded-lg font-medium transition ${
+                  filterTag === 'completed'
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                }`}
+              >
+                Completed ({bookings.filter(b => {
+                  const eventDate = b.date ? new Date(b.date) : null;
+                  return eventDate && eventDate <= new Date() || b.status === 'cancelled';
+                }).length})
+              </button>
+            </div>
+
             {loading ? (
               <div className="text-center py-12">
                 <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500"></div>
                 <p className="text-gray-400 mt-4">Loading bookings...</p>
-              </div>
-            ) : error ? (
-              <div className="bg-red-900/50 border border-red-700 text-red-200 px-4 py-3 rounded-lg">
-                {error}
               </div>
             ) : bookings.length === 0 ? (
               <div className="text-center py-12">
@@ -146,9 +226,23 @@ export default function UserDashboard() {
                   Browse Events
                 </Link>
               </div>
+            ) : filteredBookings.length === 0 ? (
+              <div className="text-center py-12">
+                <svg className="mx-auto h-16 w-16 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                </svg>
+                <h3 className="mt-4 text-lg font-medium text-gray-300">
+                  No {filterTag !== 'all' ? filterTag : ''} bookings
+                </h3>
+                <p className="mt-2 text-gray-500">
+                  {filterTag !== 'all' 
+                    ? `You don't have any ${filterTag} bookings.`
+                    : 'Start by browsing our amazing events!'}
+                </p>
+              </div>
             ) : (
               <div className="space-y-4">
-                {bookings.map((booking) => (
+                {filteredBookings.map((booking) => (
                   <div
                     key={booking.id}
                     className="bg-gray-900/50 rounded-lg border border-gray-700 p-4 md:p-6 hover:border-purple-500 transition-all"
@@ -222,6 +316,7 @@ export default function UserDashboard() {
           </div>
         </div>
       </Container>
+      </div>
     </div>
   );
 }

@@ -13,6 +13,8 @@ import EventDetail from './pages/EventDetail';
 import BookingSuccess from './pages/BookingSuccess';
 import AdminEvents from './pages/Admin/AdminEvents';
 import AdminEventForm from './pages/Admin/AdminEventForm';
+import AdminDashboard from './pages/Admin/AdminDashboard';
+import AdminBookings from './pages/Admin/AdminBookings';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import UserDashboard from './pages/UserDashboard';
@@ -66,6 +68,22 @@ function App() {
               />
               
               {/* Admin Routes */}
+              <Route 
+                path="/admin/dashboard" 
+                element={
+                  <ProtectedRoute requireAdmin>
+                    <AdminDashboard />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/bookings" 
+                element={
+                  <ProtectedRoute requireAdmin>
+                    <AdminBookings />
+                  </ProtectedRoute>
+                } 
+              />
               <Route 
                 path="/admin/events" 
                 element={
