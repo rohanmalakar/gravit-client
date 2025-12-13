@@ -25,7 +25,7 @@ export default function BookingForm({ event }: BookingFormProps) {
   const navigate = useNavigate();
 
   // Socket.io for real-time seat locking
-  const { lockedSeats, lockSeat, unlockSeat, isConnected } = useSocket({
+  const { lockedSeats, lockSeat, unlockSeat } = useSocket({
     eventId: event.id,
     userId: user?.id?.toString() || `guest-${Date.now()}`,
     onSeatLockFailed: (data) => {
@@ -88,15 +88,7 @@ export default function BookingForm({ event }: BookingFormProps) {
       alert('Please fill required fields and select at least one seat.');
       return;
     }
-
-    // Confirmation dialog
-    const confirmMessage = `Are you sure you want to book ${selectedSeats.length} seat${selectedSeats.length !== 1 ? 's' : ''} (${selectedSeats.join(', ')}) for ₹${(selectedSeats.length * Number(event.price)).toFixed(2)}?\n\nThis will permanently book the seats.`;
-    
-    if (!window.confirm(confirmMessage)) {
-      return;
-    }
-
-    console.log('Starting booking process for seats:', selectedSeats);
+  
     setLoading(true);
     try {
       const bookingData = { 
@@ -109,11 +101,9 @@ export default function BookingForm({ event }: BookingFormProps) {
         totalAmount: selectedSeats.length * Number(event.price)
       };
 
-      console.log('Sending booking request to server:', bookingData);
       const res = await api.post('/bookings', bookingData);
       const booking = res.data.data ?? res.data.booking ?? res.data;
-      console.log('Booking successful:', booking);
-      
+    
       // Unlock all seats after successful booking
       selectedSeats.forEach(seat => unlockSeat(seat));
       
@@ -154,13 +144,6 @@ export default function BookingForm({ event }: BookingFormProps) {
           />
         )}
       </div>
-
-      {/* Connection Status */}
-      {!isConnected && (
-        <div className="bg-orange-50 border border-orange-200 text-orange-800 px-3 py-2 rounded text-sm">
-          ⚠️ Real-time updates unavailable. Reconnecting...
-        </div>
-      )}
 
       {/* Booking Details */}
       <div className="border-t pt-4 space-y-3">
