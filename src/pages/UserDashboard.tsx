@@ -15,6 +15,8 @@ interface Booking {
   createdAt: string;
   name: string;
   email: string;
+  mobile?: string;
+  seats?: number[];
   title?: string;
   date?: string;
   location?: string;
@@ -29,18 +31,29 @@ export default function UserDashboard() {
   const [filterTag, setFilterTag] = useState<'all' | 'upcoming' | 'completed'>('all');
 
   useEffect(() => {
-    fetchBookings();
-  }, []);
+    if (user?.id) {
+      fetchBookings();
+    }
+  }, [user?.id]);
 
   const fetchBookings = async () => {
+    if (!user?.id) {
+      console.log('No user ID available');
+      setLoading(false);
+      return;
+    }
+    
     try {
-      const response = await api.get('/bookings', {
-        params: { userId: user?.id }
-      });
+      console.log('Fetching bookings for user:', user.id);
+      // Use the correct endpoint for user bookings
+      const response = await api.get(`/bookings/user/${user.id}`);
+      console.log('API Response:', response.data);
       const data = response.data.data ?? response.data;
+      console.log('Fetched bookings:', data);
       setBookings(Array.isArray(data) ? data : []);
     } catch (err: any) {
       console.error('Failed to load bookings:', err);
+      console.error('Error details:', err.response?.data);
       setBookings([]);
     } finally {
       setLoading(false);
