@@ -107,13 +107,25 @@ const SmartNavbar: React.FC = () => {
 
               {showUserMenu && (
                 <div className="absolute right-0 mt-2 w-44 md:w-48 bg-white rounded-lg shadow-xl py-1 md:py-2 z-50">
-                  <Link
-                    to="/dashboard"
-                    className="block px-3 md:px-4 py-2 text-sm text-gray-800 hover:bg-purple-100 transition"
-                    onClick={() => setShowUserMenu(false)}
-                  >
-                    My Dashboard
-                  </Link>
+                  {user?.role === 'admin' ? (
+                    <Link
+                      to="/admin/dashboard"
+                      className="block px-3 md:px-4 py-2 text-sm text-gray-800 hover:bg-purple-100 transition"
+                      onClick={() => setShowUserMenu(false)}
+                    >
+                      Manage Dashboard
+                    </Link>
+                  ):(
+                    <Link
+                      to="/dashboard"
+                      className="block px-3 md:px-4 py-2 text-sm text-gray-800 hover:bg-purple-100 transition"
+                      onClick={() => setShowUserMenu(false)}
+                    >
+                      My Dashboard
+                    </Link>
+                  )
+                }
+                  
                   {user?.role === 'admin' && (
                     <Link
                       to="/admin/events"
