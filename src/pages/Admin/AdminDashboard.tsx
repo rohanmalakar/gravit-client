@@ -24,6 +24,7 @@ export default function AdminDashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [analytics, setAnalytics] = useState<AnalyticsData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     loadAnalytics();
@@ -31,11 +32,18 @@ export default function AdminDashboard() {
 
   async function loadAnalytics() {
     setLoading(true);
+    setError(null);
     try {
+      console.log('Fetching analytics from:', '/analytics/dashboard');
       const res = await adminApi().get('/analytics/dashboard');
-      setAnalytics(res.data.data || res.data);
+      console.log('Analytics response:', res.data);
+      
+      const data = res.data.data || res.data;
+      console.log('Parsed analytics data:', data);
+      setAnalytics(data);
     } catch (e: any) {
       console.error('Failed to load analytics', e);
+      setError(e.message || 'Failed to load analytics data');
     } finally {
       setLoading(false);
     }
@@ -76,6 +84,38 @@ export default function AdminDashboard() {
               <div className="text-center">
                 <div className="inline-block animate-spin rounded-full h-16 w-16 border-b-2 border-purple-500 mb-4"></div>
                 <p className="text-gray-400 text-lg">Loading analytics...</p>
+              </div>
+            </div>
+          ) : error ? (
+            <div className="flex items-center justify-center py-20">
+              <div className="bg-red-900/50 border border-red-700 rounded-xl p-8 max-w-md">
+                <svg className="w-16 h-16 text-red-400 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <h3 className="text-xl font-bold text-white mb-2 text-center">Error Loading Analytics</h3>
+                <p className="text-red-200 text-center mb-4">{error}</p>
+                <button
+                  onClick={loadAnalytics}
+                  className="w-full px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition"
+                >
+                  Retry
+                </button>
+              </div>
+            </div>
+          ) : !analytics ? (
+            <div className="flex items-center justify-center py-20">
+              <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-8 max-w-md text-center">
+                <svg className="w-16 h-16 text-gray-600 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                </svg>
+                <h3 className="text-xl font-bold text-white mb-2">No Analytics Data</h3>
+                <p className="text-gray-400 mb-4">No analytics data available yet.</p>
+                <button
+                  onClick={loadAnalytics}
+                  className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition"
+                >
+                  Refresh
+                </button>
               </div>
             </div>
           ) : (

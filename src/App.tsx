@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import Header from './components/Header';
 import Hero from './components/Hero';
@@ -35,83 +35,100 @@ function HomePage() {
   );
 }
 
+function Layout() {
+  const location = useLocation();
+  
+  // Routes where header and footer should be hidden
+  const hideHeaderFooter = [
+    '/dashboard',
+    '/admin/dashboard',
+    '/admin/events',
+    '/admin/bookings',
+    '/admin/events/new'
+  ].some(path => location.pathname.startsWith(path));
+
+  return (
+    <div className="min-h-screen flex flex-col">
+      {!hideHeaderFooter && <Header />}
+      <div className="grow">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/events" element={<EventsList />} />
+          <Route path="/events/:id" element={<EventDetail />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          
+          {/* Protected Routes */}
+          <Route 
+            path="/dashboard" 
+            element={
+              <ProtectedRoute>
+                <UserDashboard />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/booking-success" 
+            element={
+              <ProtectedRoute>
+                <BookingSuccess />
+              </ProtectedRoute>
+            } 
+          />
+          
+          {/* Admin Routes */}
+          <Route 
+            path="/admin/dashboard" 
+            element={
+              <ProtectedRoute requireAdmin>
+                <AdminDashboard />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/admin/bookings" 
+            element={
+              <ProtectedRoute requireAdmin>
+                <AdminBookings />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/admin/events" 
+            element={
+              <ProtectedRoute requireAdmin>
+                <AdminEvents />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/admin/events/new" 
+            element={
+              <ProtectedRoute requireAdmin>
+                <AdminEventForm />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/admin/events/:id/edit" 
+            element={
+              <ProtectedRoute requireAdmin>
+                <AdminEventForm />
+              </ProtectedRoute>
+            } 
+          />
+        </Routes>
+      </div>
+      {!hideHeaderFooter && <Footer />}
+    </div>
+  );
+}
+
 function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <div className="min-h-screen flex flex-col">
-          <Header />
-          <div className="grow">
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/events" element={<EventsList />} />
-              <Route path="/events/:id" element={<EventDetail />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
-              
-              {/* Protected Routes */}
-              <Route 
-                path="/dashboard" 
-                element={
-                  <ProtectedRoute>
-                    <UserDashboard />
-                  </ProtectedRoute>
-                } 
-              />
-              <Route 
-                path="/booking-success" 
-                element={
-                  <ProtectedRoute>
-                    <BookingSuccess />
-                  </ProtectedRoute>
-                } 
-              />
-              
-              {/* Admin Routes */}
-              <Route 
-                path="/admin/dashboard" 
-                element={
-                  <ProtectedRoute requireAdmin>
-                    <AdminDashboard />
-                  </ProtectedRoute>
-                } 
-              />
-              <Route 
-                path="/admin/bookings" 
-                element={
-                  <ProtectedRoute requireAdmin>
-                    <AdminBookings />
-                  </ProtectedRoute>
-                } 
-              />
-              <Route 
-                path="/admin/events" 
-                element={
-                  <ProtectedRoute requireAdmin>
-                    <AdminEvents />
-                  </ProtectedRoute>
-                } 
-              />
-              <Route 
-                path="/admin/events/new" 
-                element={
-                  <ProtectedRoute requireAdmin>
-                    <AdminEventForm />
-                  </ProtectedRoute>
-                } 
-              />
-              <Route 
-                path="/admin/events/:id/edit" 
-                element={
-                  <ProtectedRoute requireAdmin>
-                    <AdminEventForm />
-                  </ProtectedRoute>
-                } 
-              />
-            </Routes>
-          </div>
-          <Footer />
-        </div>
+        <Layout />
       </AuthProvider>
     </BrowserRouter>
   );

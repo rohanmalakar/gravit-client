@@ -17,7 +17,19 @@ export default function EventsList() {
       const res = await api.get('/events');
       // API returns: { success: true, message: "...", data: [...] }
       const payload = res.data.data ?? res.data.events ?? res.data;
-      setEvents(Array.isArray(payload) ? payload : []);
+      const eventsList = Array.isArray(payload) ? payload : [];
+      
+      // Log event dates for debugging
+      if (eventsList.length > 0) {
+        console.log('Events loaded:', eventsList.length);
+        console.log('Sample event dates:', eventsList.slice(0, 3).map(e => ({
+          title: e.title,
+          date: e.date,
+          parsed: e.date ? new Date(e.date).toISOString().split('T')[0] : null
+        })));
+      }
+      
+      setEvents(eventsList);
     } catch (e) {
       console.error('Events load error', e);
       setEvents([]);
@@ -47,7 +59,23 @@ export default function EventsList() {
                          event.location?.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          event.description?.toLowerCase().includes(searchTerm.toLowerCase());
     
-    const matchesDate = !dateFilter || new Date(event.date).toISOString().split('T')[0] === dateFilter;
+    // Better date comparison - extract just the date part from event.date
+    let matchesDate = true;
+    if (dateFilter) {
+      try {
+        const eventDate = event.date ? new Date(event.date) : null;
+        if (eventDate) {
+          // Get date in YYYY-MM-DD format
+          const eventDateStr = eventDate.toISOString().split('T')[0];
+          matchesDate = eventDateStr === dateFilter;
+        } else {
+          matchesDate = false;
+        }
+      } catch (e) {
+        console.error('Date parsing error:', e);
+        matchesDate = false;
+      }
+    }
     
     return matchesSearch && matchesDate;
   });
