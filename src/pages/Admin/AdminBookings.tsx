@@ -74,21 +74,21 @@ export default function AdminBookings() {
       <div className="lg:ml-64">
         {/* Top Bar */}
         <header className="bg-gray-900/50 backdrop-blur-lg border-b border-gray-700 sticky top-0 z-30">
-          <div className="px-4 py-4 flex items-center justify-between">
-            <div className="flex items-center gap-4">
+          <div className="px-3 sm:px-4 py-3 sm:py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <div className="flex items-center gap-3 sm:gap-4 w-full sm:w-auto">
               <button
                 onClick={() => setSidebarOpen(true)}
-                className="lg:hidden text-gray-400 hover:text-white"
+                className="lg:hidden text-gray-400 hover:text-white flex-shrink-0"
               >
-                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
               </button>
-              <h1 className="text-2xl font-bold text-white">All Bookings</h1>
+              <h1 className="text-base sm:text-lg md:text-2xl font-bold text-white truncate">All Bookings</h1>
             </div>
             <Link
               to="/"
-              className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition text-sm"
+              className="w-full sm:w-auto text-center px-3 sm:px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition text-xs sm:text-sm whitespace-nowrap"
             >
               Back to Home
             </Link>

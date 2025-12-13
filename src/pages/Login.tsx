@@ -85,8 +85,8 @@ export default function Login() {
                 />
               </div>
 
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0">
+                <div className="flex items-center w-full sm:w-auto">
                   <input
                     id="remember-me"
                     name="remember-me"
@@ -98,8 +98,8 @@ export default function Login() {
                   </label>
                 </div>
 
-                <div className="text-sm">
-                  <a href="#" className="font-medium text-purple-400 hover:text-purple-300 transition-colors">
+                <div className="text-sm w-full sm:w-auto">
+                  <a href="#" className="font-medium text-purple-400 hover:text-purple-300 transition-colors block sm:inline">
                     Forgot password?
                   </a>
                 </div>
