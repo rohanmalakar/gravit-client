@@ -67,10 +67,12 @@ export default function BookingForm({ event }: BookingFormProps) {
       // Deselect and unlock
       setSelectedSeats(prev => prev.filter(s => s !== seatNumber));
       unlockSeat(seatNumber);
+      console.log(`Seat ${seatNumber} deselected - NOT booked yet`);
     } else {
-      // Select and lock
+      // Select and lock (NOT booking yet)
       setSelectedSeats(prev => [...prev, seatNumber]);
       lockSeat(seatNumber);
+      console.log(`Seat ${seatNumber} selected and temporarily locked - NOT booked yet`);
     }
   };
 
@@ -87,6 +89,14 @@ export default function BookingForm({ event }: BookingFormProps) {
       return;
     }
 
+    // Confirmation dialog
+    const confirmMessage = `Are you sure you want to book ${selectedSeats.length} seat${selectedSeats.length !== 1 ? 's' : ''} (${selectedSeats.join(', ')}) for ₹${(selectedSeats.length * Number(event.price)).toFixed(2)}?\n\nThis will permanently book the seats.`;
+    
+    if (!window.confirm(confirmMessage)) {
+      return;
+    }
+
+    console.log('Starting booking process for seats:', selectedSeats);
     setLoading(true);
     try {
       const bookingData = { 
@@ -99,8 +109,10 @@ export default function BookingForm({ event }: BookingFormProps) {
         totalAmount: selectedSeats.length * Number(event.price)
       };
 
+      console.log('Sending booking request to server:', bookingData);
       const res = await api.post('/bookings', bookingData);
       const booking = res.data.data ?? res.data.booking ?? res.data;
+      console.log('Booking successful:', booking);
       
       // Unlock all seats after successful booking
       selectedSeats.forEach(seat => unlockSeat(seat));
@@ -108,6 +120,7 @@ export default function BookingForm({ event }: BookingFormProps) {
       setLoading(false);
       navigate('/booking-success', { state: { booking } });
     } catch (err: any) {
+      console.error('Booking failed:', err);
       setLoading(false);
       alert(err.message || 'Booking failed. Please try again.');
     }
