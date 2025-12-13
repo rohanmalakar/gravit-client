@@ -22,7 +22,12 @@ export interface Booking {
   mobile?: string;
   quantity: number;
   totalAmount: number;
+  seats?: number[];
+  status?: string;
   createdAt?: string;
+  title?: string;
+  date?: string;
+  location?: string;
 }
 
 export interface SeatUpdatePayload {

@@ -42,16 +42,8 @@ export default function EventsList() {
     load(); 
   }, [load]);
 
-  // socket updates
-  useSocket(update => {
-    setEvents(prev => 
-      prev.map(ev => 
-        ev.id === update.event_id 
-          ? { ...ev, availableSeats: update.availableSeats } 
-          : ev
-      )
-    );
-  });
+  // Socket.io connection for real-time updates (seat locking handled in BookingForm)
+  useSocket();
 
   // Filter events based on search and date
   const filteredEvents = events.filter((event) => {

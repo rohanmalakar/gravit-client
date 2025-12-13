@@ -31,13 +31,8 @@ export default function EventDetail() {
     load(); 
   }, [load]);
 
-  useSocket(update => {
-    if (update.event_id === Number(id)) {
-      setEvent(prev => 
-        prev ? { ...prev, availableSeats: update.availableSeats } : prev
-      );
-    }
-  });
+  // Socket.io connection for real-time updates (seat locking handled in BookingForm)
+  useSocket();
 
   if (loading) {
     return (

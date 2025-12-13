@@ -49,6 +49,22 @@ export default function BookingSuccess() {
             <strong>Email:</strong> 
             <span>{booking.email}</span>
           </div>
+          
+          {booking.seats && Array.isArray(booking.seats) && booking.seats.length > 0 && (
+            <div className="flex flex-col gap-2">
+              <strong>Seats:</strong>
+              <div className="flex flex-wrap gap-2">
+                {booking.seats.map((seat: number) => (
+                  <span
+                    key={seat}
+                    className="px-3 py-1 bg-blue-500 text-white rounded-full text-sm font-medium"
+                  >
+                    {seat}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
           {booking.mobile && (
             <div className="flex justify-between">
               <strong>Mobile:</strong> 
