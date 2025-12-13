@@ -78,6 +78,14 @@ const SmartNavbar: React.FC = () => {
           >
             Events
           </Link>
+          {isAuthenticated && (
+            <Link 
+              to={user?.role === 'admin' ? '/admin/dashboard' : '/dashboard'}
+              className="text-white/90 hover:text-white transition text-sm lg:text-base font-medium"
+            >
+              Dashboard
+            </Link>
+          )}
           {user?.role === 'admin' && (
             <Link 
               to="/admin/events" 

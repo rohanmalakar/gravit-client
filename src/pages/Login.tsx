@@ -9,11 +9,11 @@ export default function Login() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   
-  const { login } = useAuth();
+  const { login, user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   
-  const from = (location.state as any)?.from?.pathname || '/events';
+  const from = (location.state as any)?.from?.pathname;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,7 +22,18 @@ export default function Login() {
 
     try {
       await login(email, password);
-      navigate(from, { replace: true });
+      
+      // Get the stored user data after successful login
+      const storedUser = localStorage.getItem('auth_user');
+      const userData = storedUser ? JSON.parse(storedUser) : null;
+      
+      // Determine redirect based on user role
+      let redirectPath = from;
+      if (!redirectPath) {
+        redirectPath = userData?.role === 'admin' ? '/admin/dashboard' : '/dashboard';
+      }
+      
+      navigate(redirectPath, { replace: true });
     } catch (err: any) {
       setError(err.message || 'Login failed. Please try again.');
     } finally {
