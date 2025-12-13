@@ -128,6 +128,7 @@ export default function SeatMap({
                   return (
                     <motion.button
                       key={seatNumber}
+                      type="button"
                       whileHover={!isDisabled ? { scale: 1.1 } : {}}
                       whileTap={!isDisabled ? { scale: 0.95 } : {}}
                       onClick={() => handleSeatClick(seatNumber)}
