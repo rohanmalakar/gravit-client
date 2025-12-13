@@ -55,6 +55,13 @@ export default function SeatMap({
 
   return (
     <div className="space-y-6">
+      {/* Instructions */}
+      <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3 text-center">
+        <p className="text-sm text-blue-900 dark:text-blue-100 font-medium">
+          Click on available seats to select them. Selected seats are temporarily held for you.
+        </p>
+      </div>
+
       {/* Legend */}
       <div className="flex flex-wrap gap-4 justify-center text-sm">
         <div className="flex items-center gap-2">
@@ -63,7 +70,7 @@ export default function SeatMap({
         </div>
         <div className="flex items-center gap-2">
           <div className="w-6 h-6 bg-blue-500 border-2 border-blue-600 rounded"></div>
-          <span>Selected</span>
+          <span>Your Selection</span>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-6 h-6 bg-red-500 border-2 border-red-600 rounded"></div>
@@ -71,7 +78,7 @@ export default function SeatMap({
         </div>
         <div className="flex items-center gap-2">
           <div className="w-6 h-6 bg-yellow-500 border-2 border-yellow-600 rounded"></div>
-          <span>Locked</span>
+          <span>Locked by Others</span>
         </div>
       </div>
 
@@ -127,10 +134,15 @@ export default function SeatMap({
 
       {/* Selected Seats Summary */}
       {selectedSeats.length > 0 && (
-        <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
-          <p className="font-semibold text-blue-900 dark:text-blue-100 mb-2">
-            Selected Seats ({selectedSeats.length}/{maxSelection}):
-          </p>
+        <div className="bg-green-50 dark:bg-green-900/20 border-2 border-green-500 dark:border-green-700 rounded-lg p-4">
+          <div className="flex items-center gap-2 mb-2">
+            <svg className="w-5 h-5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+            <p className="font-semibold text-green-900 dark:text-green-100">
+              You Selected {selectedSeats.length} Seat{selectedSeats.length !== 1 ? 's' : ''} ({selectedSeats.length}/{maxSelection}):
+            </p>
+          </div>
           <div className="flex flex-wrap gap-2">
             {selectedSeats.map(seat => (
               <span
@@ -141,6 +153,9 @@ export default function SeatMap({
               </span>
             ))}
           </div>
+          <p className="text-xs text-green-700 dark:text-green-300 mt-2">
+            💡 These seats are temporarily held for you. Complete the booking form below to confirm your purchase.
+          </p>
         </div>
       )}
     </div>
