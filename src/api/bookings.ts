@@ -38,11 +38,13 @@ export const bookingsApi = {
 
   getAll: async (params?: { eventId?: number; userId?: number }) => {
     const response = await api.get<BookingResponse>('/bookings', { params });
+    console.log("bookings Response",response);
     return Array.isArray(response.data.data) ? response.data.data : [];
   },
 
   getUserBookings: async (userId: number) => {
     const response = await api.get<BookingResponse>(`/bookings/user/${userId}`);
+    console.log("user booking response",response);
     return Array.isArray(response.data.data) ? response.data.data : [];
   },
 

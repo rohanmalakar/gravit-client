@@ -68,7 +68,7 @@ export default function AdminBookings() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900">
+    <div className="min-h-screen bg-linear-to-br from-gray-900 via-black to-gray-900">
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       
       <div className="lg:ml-64">
@@ -78,7 +78,7 @@ export default function AdminBookings() {
             <div className="flex items-center gap-3 sm:gap-4 w-full sm:w-auto">
               <button
                 onClick={() => setSidebarOpen(true)}
-                className="lg:hidden text-gray-400 hover:text-white flex-shrink-0"
+                className="lg:hidden text-gray-400 hover:text-white shrink-0"
               >
                 <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
