@@ -149,93 +149,96 @@ export default function EventDetail() {
 
       {/* Main Content */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left Column - Event Details */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* About Event */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="bg-white rounded-xl shadow-lg p-6 md:p-8"
-            >
-              <h2 className="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-                <svg className="w-6 h-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        {/* Event Details Section */}
+        <div className="space-y-6 mb-12">
+          {/* About Event */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="bg-white rounded-xl shadow-lg p-6 md:p-8"
+          >
+            <h2 className="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+              <svg className="w-6 h-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              About This Event
+            </h2>
+            <p className="text-gray-700 leading-relaxed whitespace-pre-line">
+              {event.description || 'No description available for this event.'}
+            </p>
+          </motion.div>
+
+          {/* Event Information Cards */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+            className="grid grid-cols-1 sm:grid-cols-3 gap-4"
+          >
+            {/* Price Card */}
+            <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-xl shadow-lg p-6 text-white">
+              <div className="flex items-center gap-2 mb-2">
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                About This Event
-              </h2>
-              <p className="text-gray-700 leading-relaxed whitespace-pre-line">
-                {event.description || 'No description available for this event.'}
-              </p>
-            </motion.div>
-
-            {/* Event Information Cards */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-              className="grid grid-cols-1 sm:grid-cols-3 gap-4"
-            >
-              {/* Price Card */}
-              <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-xl shadow-lg p-6 text-white">
-                <div className="flex items-center gap-2 mb-2">
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  <span className="text-sm font-medium opacity-90">Ticket Price</span>
-                </div>
-                <div className="text-3xl font-bold">₹{Number(event.price || 0).toFixed(2)}</div>
-                <div className="text-sm opacity-80 mt-1">per seat</div>
+                <span className="text-sm font-medium opacity-90">Ticket Price</span>
               </div>
+              <div className="text-3xl font-bold">₹{Number(event.price || 0).toFixed(2)}</div>
+              <div className="text-sm opacity-80 mt-1">per seat</div>
+            </div>
 
-              {/* Available Seats Card */}
-              <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg p-6 text-white">
-                <div className="flex items-center gap-2 mb-2">
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                  </svg>
-                  <span className="text-sm font-medium opacity-90">Available Seats</span>
-                </div>
-                <div className="text-3xl font-bold">{event.availableSeats}</div>
-                <div className="text-sm opacity-80 mt-1">of {event.totalSeats} seats</div>
+            {/* Available Seats Card */}
+            <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg p-6 text-white">
+              <div className="flex items-center gap-2 mb-2">
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+                <span className="text-sm font-medium opacity-90">Available Seats</span>
               </div>
+              <div className="text-3xl font-bold">{event.availableSeats}</div>
+              <div className="text-sm opacity-80 mt-1">of {event.totalSeats} seats</div>
+            </div>
 
-              {/* Status Card */}
-              <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl shadow-lg p-6 text-white">
-                <div className="flex items-center gap-2 mb-2">
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  <span className="text-sm font-medium opacity-90">Status</span>
-                </div>
-                <div className="text-2xl font-bold">
-                  {event.availableSeats > 0 ? 'Available' : 'Sold Out'}
-                </div>
-                <div className="text-sm opacity-80 mt-1">
-                  {event.availableSeats > 0 ? 'Book now!' : 'No seats left'}
-                </div>
+            {/* Status Card */}
+            <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl shadow-lg p-6 text-white">
+              <div className="flex items-center gap-2 mb-2">
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span className="text-sm font-medium opacity-90">Status</span>
               </div>
-            </motion.div>
-          </div>
-
-          {/* Right Column - Booking Form */}
-          <div className="lg:col-span-1">
-            <motion.div 
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.4 }}
-              className="bg-white rounded-xl shadow-2xl p-6 sticky top-24"
-            >
-              <div className="mb-6">
-                <h2 className="text-2xl font-bold text-gray-800 mb-2">Book Your Tickets</h2>
-                <p className="text-gray-600 text-sm">Select your seats and complete your booking</p>
+              <div className="text-2xl font-bold">
+                {event.availableSeats > 0 ? 'Available' : 'Sold Out'}
               </div>
-
-              <BookingForm event={event} />
-            </motion.div>
-          </div>
+              <div className="text-sm opacity-80 mt-1">
+                {event.availableSeats > 0 ? 'Book now!' : 'No seats left'}
+              </div>
+            </div>
+          </motion.div>
         </div>
+
+        {/* Booking Section - Full Width, Centered */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
+          className="max-w-6xl mx-auto"
+        >
+          <div className="bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 rounded-t-2xl p-6 text-white text-center">
+            <h2 className="text-3xl font-bold mb-2 flex items-center justify-center gap-3">
+              <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
+              </svg>
+              Book Your Tickets
+            </h2>
+            <p className="text-indigo-100">Select your preferred seats and complete your booking below</p>
+          </div>
+          
+          <div className="bg-white rounded-b-2xl shadow-2xl p-6 md:p-10">
+            <BookingForm event={event} />
+          </div>
+        </motion.div>
       </div>
     </main>
   );
