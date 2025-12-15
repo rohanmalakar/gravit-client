@@ -5,22 +5,88 @@ import EventCard from '../components/EventCard';
 import useSocket from '../hooks/useSocket';
 import type { Event } from '../types/event';
 
+const CACHE_KEY = 'events_cache';
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes in milliseconds
+
+interface CachedData {
+  events: Event[];
+  timestamp: number;
+}
+
 export default function EventsList() {
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [dateFilter, setDateFilter] = useState('');
   const [locationFilter, setLocationFilter] = useState('');
+  const [usingCache, setUsingCache] = useState(false);
 
-  const load = useCallback(async () => {
-    setLoading(true);
+  // Get cached events from localStorage
+  const getCachedEvents = (): Event[] | null => {
     try {
+      const cached = localStorage.getItem(CACHE_KEY);
+      if (!cached) return null;
+
+      const { events, timestamp }: CachedData = JSON.parse(cached);
+      const now = Date.now();
+      
+      // Check if cache is still valid (not expired)
+      if (now - timestamp < CACHE_DURATION) {
+        console.log('✅ Using cached events (age:', Math.round((now - timestamp) / 1000), 'seconds)');
+        return events;
+      } else {
+        console.log('⏰ Cache expired, fetching fresh data');
+        localStorage.removeItem(CACHE_KEY);
+        return null;
+      }
+    } catch (e) {
+      console.error('Error reading cache:', e);
+      return null;
+    }
+  };
+
+  // Save events to localStorage
+  const setCachedEvents = (events: Event[]) => {
+    try {
+      const cacheData: CachedData = {
+        events,
+        timestamp: Date.now()
+      };
+      localStorage.setItem(CACHE_KEY, JSON.stringify(cacheData));
+      console.log('💾 Events cached successfully');
+    } catch (e) {
+      console.error('Error saving to cache:', e);
+    }
+  };
+
+  // Clear cache manually
+  const clearCache = () => {
+    localStorage.removeItem(CACHE_KEY);
+    console.log('🗑️ Cache cleared');
+  };
+
+  const load = useCallback(async (forceRefresh = false) => {
+    setLoading(true);
+    setUsingCache(false);
+    
+    try {
+      // Try to get cached events first (if not forcing refresh)
+      if (!forceRefresh) {
+        const cachedEvents = getCachedEvents();
+        if (cachedEvents) {
+          setEvents(cachedEvents);
+          setUsingCache(true);
+          setLoading(false);
+          return;
+        }
+      }
+
+      // Fetch from API if no cache or force refresh
+      console.log('🌐 Fetching events from API...');
       const res = await api.get('/events');
-      // API returns: { success: true, message: "...", data: [...] }
       const payload = res.data.data ?? res.data.events ?? res.data;
       const eventsList = Array.isArray(payload) ? payload : [];
       
-      // Log event dates for debugging
       if (eventsList.length > 0) {
         console.log('Events loaded:', eventsList.length);
         console.log('Sample event dates:', eventsList.slice(0, 3).map(e => ({
@@ -31,6 +97,7 @@ export default function EventsList() {
       }
       
       setEvents(eventsList);
+      setCachedEvents(eventsList); // Save to cache
     } catch (e) {
       console.error('Events load error', e);
       setEvents([]);
@@ -105,7 +172,7 @@ export default function EventsList() {
           <p className="text-gray-400 text-lg max-w-2xl mx-auto">
             Find and book tickets for the most exciting events happening near you
           </p>
-          <div className="mt-6 flex items-center justify-center gap-6 text-sm text-gray-500">
+          <div className="mt-6 flex items-center justify-center gap-4 md:gap-6 text-sm text-gray-500 flex-wrap">
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
               <span>{events.length} Events Available</span>
@@ -114,16 +181,36 @@ export default function EventsList() {
               <span className="w-2 h-2 bg-purple-500 rounded-full animate-pulse"></span>
               <span>{uniqueLocations.length} Locations</span>
             </div>
+            {usingCache && (
+              <div className="flex items-center gap-2 bg-blue-500/10 px-3 py-1 rounded-full border border-blue-500/30">
+                <svg className="w-3 h-3 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+                </svg>
+                <span className="text-blue-400 font-medium">Cached</span>
+              </div>
+            )}
           </div>
         </div>
         
         {/* Search and Filter Section */}
         <div className="bg-gray-800/50 backdrop-blur-lg rounded-2xl border border-gray-700/50 p-6 md:p-8 mb-10 shadow-2xl hover:border-purple-500/50 transition-all duration-300">
-          <div className="flex items-center gap-2 mb-6">
-            <svg className="w-5 h-5 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
-            </svg>
-            <h2 className="text-xl font-bold text-white">Filter & Search</h2>
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-2">
+              <svg className="w-5 h-5 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+              </svg>
+              <h2 className="text-xl font-bold text-white">Filter & Search</h2>
+            </div>
+            <button
+              onClick={() => load(true)}
+              className="flex items-center gap-2 px-4 py-2 bg-gray-700/50 hover:bg-gradient-to-r hover:from-purple-600 hover:to-pink-600 text-gray-300 hover:text-white rounded-lg transition-all duration-200 text-sm font-medium border border-gray-600 hover:border-transparent group"
+              title="Refresh events from server"
+            >
+              <svg className="w-4 h-4 group-hover:animate-spin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+              <span className="hidden sm:inline">Refresh</span>
+            </button>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             <div className="relative">
@@ -271,7 +358,7 @@ export default function EventsList() {
                   : 'There are currently no events scheduled. Check back soon for upcoming events!'}
               </p>
               <button
-                onClick={load}
+                onClick={() => load(true)}
                 className="px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-xl transition-all font-semibold shadow-lg hover:shadow-purple-500/50 hover:scale-105 flex items-center gap-2 mx-auto"
               >
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
