@@ -59,12 +59,6 @@ export default function EventsList() {
     }
   };
 
-  // Clear cache manually
-  const clearCache = () => {
-    localStorage.removeItem(CACHE_KEY);
-    console.log('🗑️ Cache cleared');
-  };
-
   const load = useCallback(async (forceRefresh = false) => {
     setLoading(true);
     setUsingCache(false);
