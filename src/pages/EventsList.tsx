@@ -301,7 +301,6 @@ export default function EventsList() {
             )}
           </>
         )}
-      </div>
     </main>
   );
 }
